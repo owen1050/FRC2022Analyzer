@@ -4,7 +4,11 @@ items = {}
 for item in itemKeys:
     items[item] = 0
 
-tba = tbapy.TBA('')
+f = open("TOKEN", 'r')
+tok = f.read()
+f.close()
+tba = tbapy.TBA(tok)
+
 
 matches = tba.event_matches("2022week0")
 for match in matches:
