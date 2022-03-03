@@ -1,14 +1,18 @@
 from CargoDistributionAnalysis import CargoDistributionAnalysis
-
+from EventMethods import EventMethods
 class StatAnalyzer:
-
+    em = 0
+    getDist = 0
     def test(self):
-        print(self.getCargoDropRateDistributionFromEvent("2022week0"))
+        self.em = EventMethods()
+        self.getDist = CargoDistributionAnalysis()
 
-    def getCargoDropRateDistributionFromEvent(self, eventKey):
-        getDist = CargoDistributionAnalysis()
-        data = getDist.getDist(eventKey)
-        return data
+        if(True):
+            print(self.getDist.getDist("2022ispr"))
 
-    def getAllEvents(self):
-        pass
+        if(False):
+            allEvents = self.em.getAllMatchesFromYear(2022)
+            allMatches = self.em.getAllMatchesFromEvents(allEvents)
+            filteredEvents = self.em.filterEventsByMatches(allMatches)
+            print(filteredEvents)
+

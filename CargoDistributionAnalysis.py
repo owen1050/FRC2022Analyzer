@@ -1,28 +1,18 @@
 import tbapy
+from TBAGetter import TBAGetter
 itemKeys = ["autoCargoLowerBlue",'autoCargoLowerFar','autoCargoLowerNear','autoCargoLowerRed','autoCargoUpperBlue','autoCargoUpperFar','autoCargoUpperNear','autoCargoUpperRed','teleopCargoLowerBlue','teleopCargoLowerFar','teleopCargoLowerNear','teleopCargoLowerRed','teleopCargoUpperBlue','teleopCargoUpperFar','teleopCargoUpperNear','teleopCargoUpperRed']
 items = {}
 timeAgItems = {}
 
 class CargoDistributionAnalysis:
 
-    def getDist(self, eventKey):
+    def getDistFromMatchInfo(self, eventData):
+        try:
+            eventData[0]["score_breakdown"]["red"]
+        except:
+            return ({},{})
 
-        for item in itemKeys:
-            items[item] = 0
-
-        for item in itemKeys:
-            i0 = item.find("C")
-            newItem = item[i0:]
-            timeAgItems[newItem] = 0
-
-        f = open("TOKEN", 'r')
-        tok = f.read()
-        f.close()
-        tba = tbapy.TBA(tok)
-
-
-        matches = tba.event_matches(eventKey)
-        for match in matches:
+        for match in eventData:
             r = match["score_breakdown"]["red"]
             b = match["score_breakdown"]["blue"]
             for item in itemKeys:
@@ -52,6 +42,20 @@ class CargoDistributionAnalysis:
                 timeAgDistUpper[i] = timeAgItems[i] / upperTotal
 
         return (timeAgDistLower, timeAgDistUpper)
+
+    def getDist(self, eventKey):
+
+        for item in itemKeys:
+            items[item] = 0
+
+        for item in itemKeys:
+            i0 = item.find("C")
+            newItem = item[i0:]
+            timeAgItems[newItem] = 0
+
+        tba = TBAGetter().getTBA()
+        matches = tba.event_matches(eventKey)
+        return self.getDistFromMatchInfo(matches)
 
     def format(self):
         for i in timeAgDistUpper:
