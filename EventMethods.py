@@ -32,3 +32,10 @@ class EventMethods:
     def getAllEventsFromYearWithMatches(self, year):
         events = self.getAllEventsFromYear(year)
         return self.filterEventsByMatches(events)
+
+    def getEventDataFromEvents(self, events):
+        ret = {}
+        for event in events:
+            tempMatches = self.tba.event_matches(event)
+            ret[event] = tempMatches
+        return ret

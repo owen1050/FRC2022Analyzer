@@ -7,19 +7,31 @@ timeAgItems = {}
 class CargoDistributionAnalysis:
 
     def getDistFromMatchInfo(self, eventData):
+        for item in itemKeys:
+            items[item] = 0
+
+        for item in itemKeys:
+            i0 = item.find("C")
+            newItem = item[i0:]
+            timeAgItems[newItem] = 0
+
         try:
             eventData[0]["score_breakdown"]["red"]
         except:
             return ({},{})
 
         for match in eventData:
-            r = match["score_breakdown"]["red"]
-            b = match["score_breakdown"]["blue"]
-            for item in itemKeys:
-                items[item] = items[item] + r[item] + b[item]
-                i0 = item.find("C")
-                newItem = item[i0:]
-                timeAgItems[newItem] = timeAgItems[newItem] +  r[item] + b[item]
+            try:
+                r = match["score_breakdown"]["red"]
+                b = match["score_breakdown"]["blue"]
+                for item in itemKeys:
+                    items[item] = items[item] + r[item] + b[item]
+                    i0 = item.find("C")
+                    newItem = item[i0:]
+                    timeAgItems[newItem] = timeAgItems[newItem] +  r[item] + b[item]
+            except:
+                print("error on line 25 of CargoDistributionAnalysis")
+
 
         total = 0
         lowerTotal = 0
