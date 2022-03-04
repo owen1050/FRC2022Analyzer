@@ -30,7 +30,7 @@ class CargoDistributionAnalysis:
                     newItem = item[i0:]
                     timeAgItems[newItem] = timeAgItems[newItem] +  r[item] + b[item]
             except:
-                print("error on line 25 of CargoDistributionAnalysis")
+                pass
 
 
         total = 0
@@ -53,7 +53,7 @@ class CargoDistributionAnalysis:
             else:
                 timeAgDistUpper[i] = timeAgItems[i] / upperTotal
 
-        return (timeAgDistLower, timeAgDistUpper)
+        return (total, timeAgDistLower, timeAgDistUpper)
 
     def getDist(self, eventKey):
 

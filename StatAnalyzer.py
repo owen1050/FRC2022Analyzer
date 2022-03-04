@@ -10,7 +10,7 @@ class StatAnalyzer:
         if(False):
             print(self.getDist.getDist("2022ispr"))
 
-        if(False): #run for specific events
+        if(True): #run for specific events
             filteredEvents = ['2022flwp', '2022ispr', '2022mndu', '2022mndu2', '2022week0']#self.em.filterEventsByMatches(allMatches)
             allMatches = self.em.getEventDataFromEvents(filteredEvents)
 
@@ -18,8 +18,9 @@ class StatAnalyzer:
                 temp = self.getDist.getDistFromMatchInfo(allMatches[event])
                 print(event, temp)
 
-        if(True): #run for all events in 2022
+        if(False): #run for all events in 2022
             allEvents = self.em.getAllMatchesFromYear(2022)
+            print("Num events:" + str(len(allEvents)))
             allMatches = self.em.getAllMatchesFromEvents(allEvents)
             filteredEvents = self.em.filterEventsByMatches(allMatches)
             print(filteredEvents)
