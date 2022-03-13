@@ -1,4 +1,4 @@
-import tbapy
+import tbapy, pytz, datetime
 from TBAGetter import TBAGetter
 
 class EventMethods:
@@ -39,3 +39,71 @@ class EventMethods:
             tempMatches = self.tba.event_matches(event)
             ret[event] = tempMatches
         return ret
+
+    def getEventData(self, event):
+        return self.tba.event(event)
+
+    def getMatchesDayFromEvent(self, event):
+        try:
+            oneEvent = self.getEventData(event)
+            matches = self.getEventDataFromEvents([event])
+            event = matches[event]
+            match = event[0]
+
+            matchEpoch = match["time"]
+            matchDatetime = datetime.datetime.fromtimestamp(matchEpoch)
+            offsetStr = datetime.datetime.now(pytz.timezone(oneEvent["timezone"])).strftime('%z')
+            offset = int(offsetStr[1:])/100
+            if(offsetStr[0] == "+"):
+                pass
+            else:
+                offset = offset * -1
+
+            ret = {}
+            for m in event:
+                try:
+                    matchEpoch = m["time"]
+                    correctedEpoch = ((offset + 5) * 60 * 60) + matchEpoch
+                    tempDatetime = datetime.datetime.fromtimestamp(correctedEpoch)
+                    day = tempDatetime.day
+                    if(day in ret):
+                        ret[day] = ret[day] + 1
+                    else:
+                        ret[day] = 1
+                except:
+                    pass
+            return ret
+        except:
+            return {0:0}
+
+    def getMatchesDayFromEventNoPass(self, event):
+        
+        oneEvent = self.getEventData(event)
+        matches = self.getEventDataFromEvents([event])
+        event = matches[event]
+        match = event[0]
+
+        matchEpoch = match["time"]
+        matchDatetime = datetime.datetime.fromtimestamp(matchEpoch)
+        offsetStr = datetime.datetime.now(pytz.timezone(oneEvent["timezone"])).strftime('%z')
+        offset = int(offsetStr[1:])/100
+        if(offsetStr[0] == "+"):
+            pass
+        else:
+            offset = offset * -1
+
+        ret = {}
+        for m in event:
+            try:
+                matchEpoch = m["time"]
+                correctedEpoch = ((offset + 5) * 60 * 60) + matchEpoch
+                tempDatetime = datetime.datetime.fromtimestamp(correctedEpoch)
+                day = tempDatetime.day
+                if(day in ret):
+                    ret[day] = ret[day] + 1
+                else:
+                    ret[day] = 1
+            except:
+                pass
+        return ret
+        
