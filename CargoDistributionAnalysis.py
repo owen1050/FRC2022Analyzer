@@ -2,6 +2,8 @@ import tbapy
 from TBAGetter import TBAGetter
 itemKeys = ["autoCargoLowerBlue",'autoCargoLowerFar','autoCargoLowerNear','autoCargoLowerRed','autoCargoUpperBlue','autoCargoUpperFar','autoCargoUpperNear','autoCargoUpperRed','teleopCargoLowerBlue','teleopCargoLowerFar','teleopCargoLowerNear','teleopCargoLowerRed','teleopCargoUpperBlue','teleopCargoUpperFar','teleopCargoUpperNear','teleopCargoUpperRed']
 items = {}
+elimItems = {}
+
 timeAgItems = {}
 
 class CargoDistributionAnalysis:
@@ -28,7 +30,8 @@ class CargoDistributionAnalysis:
                     items[item] = items[item] + r[item] + b[item]
                     i0 = item.find("C")
                     newItem = item[i0:]
-                    timeAgItems[newItem] = timeAgItems[newItem] +  r[item] + b[item]
+                    if(match['comp_level'] == "qm"):
+                        timeAgItems[newItem] = timeAgItems[newItem] +  r[item] + b[item]
             except:
                 pass
 
