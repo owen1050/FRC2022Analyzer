@@ -32,7 +32,7 @@ class StatAnalyzer:
 
         if(True):
             data = {}
-            for year in range(2008, 2023):
+            for year in range(2022, 2023):
                 allEvents = self.em.getAllMatchesFromYear(year)
                 tot = len(allEvents)
                 print(tot)
@@ -47,7 +47,7 @@ class StatAnalyzer:
                     print(key, temp, count/tot)
 
             print(data)
-            with open('saveData', 'wb') as handle:
+            with open('saveData2022', 'wb') as handle:
                 pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
         if(False):
