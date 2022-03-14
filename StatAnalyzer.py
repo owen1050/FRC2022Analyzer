@@ -5,27 +5,38 @@ import pickle
 class StatAnalyzer:
     em = 0
     getDist = 0
+    itemKeys = ["autoCargoLowerBlue",'autoCargoLowerFar','autoCargoLowerNear','autoCargoLowerRed','autoCargoUpperBlue','autoCargoUpperFar','autoCargoUpperNear','autoCargoUpperRed','teleopCargoLowerBlue','teleopCargoLowerFar','teleopCargoLowerNear','teleopCargoLowerRed','teleopCargoUpperBlue','teleopCargoUpperFar','teleopCargoUpperNear','teleopCargoUpperRed']
+    items = {}
+
     def test(self):
         self.em = EventMethods()
         self.getDist = CargoDistributionAnalysis()
 
         if(False):
-            print(self.getDist.getDist("2022ispr"))
+            filteredEvents = ['2022njbri']#self.em.filterEventsByMatches(allMatches)
+            allMatches = self.em.getEventDataFromEvents(filteredEvents)
+            print(allMatches['2022njbri'][45])
+
+
 
         if(False): #run for specific events
-            filteredEvents = ['2022flwp', '2022ispr', '2022mndu', '2022mndu2', '2022week0']#self.em.filterEventsByMatches(allMatches)
+            filteredEvents = ['2022njbri']#self.em.filterEventsByMatches(allMatches)
             allMatches = self.em.getEventDataFromEvents(filteredEvents)
 
             for event in filteredEvents:
                 temp = self.getDist.getDistFromMatchInfo(allMatches[event])
-                print(event, temp)
+                print(temp)
 
         if(False): #run for all events in 2022
             allEvents = self.em.getAllMatchesFromYear(2022)
             print("Num events:" + str(len(allEvents)))
             allMatches = self.em.getAllMatchesFromEvents(allEvents)
+            print("Num events w/ matches:" + str(len(allMatches)))
             filteredEvents = self.em.filterEventsByMatches(allMatches)
             print(filteredEvents)
+            for item in self.itemKeys:
+                self.items[item] = 0
+            count = 0
             for event in filteredEvents:
                 temp = self.getDist.getDistFromMatchInfo(allMatches[event])
                 print(event, temp, "\n")
