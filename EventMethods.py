@@ -8,6 +8,9 @@ class EventMethods:
     def __init__(self):
         self.tba = TBAGetter().getTBA()
 
+    def getAllTeamEvents(self, team):
+        return self.tba.team_events(team, simple = True)
+
     def getAllEventsFromYear(self, year):
         return self.tba.events(year)
 
@@ -15,11 +18,19 @@ class EventMethods:
         events = self.getAllEventsFromYear(year)
         return events
 
+    def getTeamMatchesFromEvents(self, events, team):
+        ret = {}
+        for event in events:
+            tempMatches = self.tba.team_matches(team, event, simple = True)
+            ret[event] = tempMatches
+        return ret
+
     def getAllMatchesFromEvents(self, events):
         ret = {}
         for event in events:
-            tempMatches = self.tba.event_matches(event['key'])
-            ret[event['key']] = tempMatches
+            tempMatches = self.tba.event_matches(event)
+            ret[event] = tempMatches
+            print(event)
         return ret
 
     def filterEventsByMatches(self, events):
